@@ -28,6 +28,11 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
         body {
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-light) 100%);
@@ -37,13 +42,23 @@
             color: var(--text-main);
         }
 
-        /* ===== فراشات متحركة ===== */
-        .butterfly {
+        #butterflies {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .butterfly {
+            position: absolute;
             font-size: 24px;
             opacity: 0.7;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
             animation: float 15s infinite ease-in-out;
             filter: drop-shadow(0 0 5px rgba(255,133,162,0.4));
         }
@@ -58,7 +73,6 @@
             100% { transform: translate(0, -200px) rotate(0deg); opacity: 0; }
         }
 
-        /* ===== الشاشات ===== */
         .screen {
             position: fixed;
             top: 0;
@@ -75,18 +89,20 @@
             transform: scale(0.9) translateY(20px);
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
+            overflow-y: auto;
         }
 
         .screen.active {
             opacity: 1;
             pointer-events: all;
             transform: scale(1) translateY(0);
+            z-index: 20;
         }
 
-        /* ===== البطاقات ===== */
         .card {
-            background: rgba(255, 250, 250, 0.9);
+            background: rgba(255, 250, 250, 0.95);
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 2px solid var(--beige-dark);
             border-radius: 24px;
             padding: 35px 25px;
@@ -96,6 +112,8 @@
             box-shadow: 0 20px 60px rgba(139, 69, 19, 0.1), inset 0 1px 0 rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
+            z-index: 25;
+            margin: auto;
         }
 
         .card::before {
@@ -107,9 +125,14 @@
             height: 200%;
             background: radial-gradient(circle, rgba(255,133,162,0.08) 0%, transparent 70%);
             pointer-events: none;
+            z-index: 0;
         }
 
-        /* ===== العناوين ===== */
+        .card > * {
+            position: relative;
+            z-index: 1;
+        }
+
         h1, h2, h3 {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
@@ -132,7 +155,6 @@
             color: var(--text-main);
         }
 
-        /* ===== الأزرار ===== */
         .btn {
             background: linear-gradient(145deg, var(--beige), var(--beige-dark));
             color: var(--text-main);
@@ -148,6 +170,7 @@
             box-shadow: 0 4px 15px rgba(139, 69, 19, 0.15);
             position: relative;
             overflow: hidden;
+            z-index: 2;
         }
 
         .btn:hover {
@@ -167,7 +190,6 @@
             font-size: 0.95em;
         }
 
-        /* ===== لوحة الأرقام ===== */
         .passcode-display {
             display: flex;
             gap: 15px;
@@ -218,6 +240,7 @@
             justify-content: center;
             transition: all 0.15s;
             font-family: 'Poppins', sans-serif;
+            user-select: none;
         }
 
         .key:hover, .key:active {
@@ -225,7 +248,6 @@
             border-color: var(--gold);
             transform: scale(0.95);
         }
-
         /* ===== القطة الأنثوية ===== */
         .cat-container {
             width: 120px;
@@ -303,7 +325,6 @@
             left: 3px;
         }
 
-        /* رموش القطة */
         .cat-eye::before {
             content: '⌒';
             position: absolute;
@@ -375,7 +396,6 @@
         .cat-paw.left { left: 35px; }
         .cat-paw.right { right: 35px; }
 
-        /* فيونكة القطة */
         .cat-bow {
             position: absolute;
             top: 5px;
@@ -411,7 +431,6 @@
             z-index: 11;
         }
 
-        /* خدود وردية */
         .cat-cheek {
             position: absolute;
             width: 12px;
@@ -424,7 +443,6 @@
         .cat-cheek.left { left: 8px; }
         .cat-cheek.right { right: 8px; }
 
-        /* حالات القطة */
         .cat.sad .cat-head {
             background: linear-gradient(145deg, #F5E6E8, #E8D5D5);
             transform: translateY(5px);
@@ -519,6 +537,8 @@
             align-items: center;
             margin: 20px 0;
             min-height: 250px;
+            position: relative;
+            z-index: 2;
         }
 
         .polaroid {
@@ -529,6 +549,7 @@
             transition: all 0.4s ease;
             position: relative;
             max-width: 160px;
+            z-index: 2;
         }
 
         .polaroid:hover {
@@ -543,9 +564,10 @@
             border-radius: 4px;
             display: block;
             background: linear-gradient(45deg, #FFE4E1, #FADADD);
+            position: relative;
+            z-index: 2;
         }
 
-        /* تنسيقات مختلفة لكل شاشة */
         .layout-side .polaroid:nth-child(1) { transform: rotate(-3deg); }
         .layout-side .polaroid:nth-child(2) { transform: rotate(3deg); margin-top: 20px; }
 
@@ -558,6 +580,7 @@
         .layout-diagonal {
             position: relative;
             height: 280px;
+            width: 100%;
         }
         .layout-diagonal .polaroid:nth-child(1) { 
             transform: rotate(-8deg); 
@@ -591,7 +614,6 @@
             text-shadow: 0 2px 10px rgba(139, 69, 19, 0.1);
         }
 
-        /* ===== الرسالة الطويلة ===== */
         .message-box {
             max-height: 50vh;
             overflow-y: auto;
@@ -615,7 +637,6 @@
             font-weight: 700;
         }
 
-        /* ===== الشاشة الختامية ===== */
         .final-text {
             font-family: 'Tajawal', sans-serif;
             font-size: 1.4em;
@@ -636,7 +657,6 @@
             45% { transform: scale(1.15); }
         }
 
-        /* ===== تأثيرات دخول ===== */
         .fade-in-up {
             animation: fadeInUp 0.8s ease forwards;
         }
@@ -646,11 +666,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .stagger-1 { animation-delay: 0.1s; opacity: 0; }
-        .stagger-2 { animation-delay: 0.2s; opacity: 0; }
-        .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+        .stagger-1 { animation-delay: 0.1s; opacity: 0; animation-fill-mode: forwards; }
+        .stagger-2 { animation-delay: 0.2s; opacity: 0; animation-fill-mode: forwards; }
+        .stagger-3 { animation-delay: 0.3s; opacity: 0; animation-fill-mode: forwards; }
 
-        /* ===== مؤشرات صغيرة ===== */
         .dots-nav {
             display: flex;
             gap: 8px;
@@ -672,7 +691,6 @@
             border-radius: 4px;
         }
 
-        /* ===== للشاشات الصغيرة ===== */
         @media (max-width: 480px) {
             .card { padding: 25px 18px; }
             .polaroid { max-width: 130px; }
@@ -685,275 +703,269 @@
 </head>
 <body>
 
+
     <!-- فراشات الخلفية -->
-    <div id="butterflies"></div>
+<div id="butterflies"></div>
 
-    <!-- ==================== الشاشة 1: المقدمة ==================== -->
-    <div class="screen active" id="screen-intro">
-        <div class="card fade-in-up">
-            <div class="cat-container">
-                <div class="cat happy" id="intro-cat">
-                    <div class="cat-head">
-                        <div class="cat-ear left"></div>
-                        <div class="cat-ear right"></div>
-                        <div class="cat-eye left"></div>
-                        <div class="cat-eye right"></div>
-                        <div class="cat-nose"></div>
-                        <div class="cat-mouth"></div>
-                        <div class="cat-cheek left"></div>
-                        <div class="cat-cheek right"></div>
-                        <div class="cat-bow"><div class="cat-bow-center"></div></div>
-                    </div>
-                    <div class="cat-body"></div>
-                    <div class="cat-paw left"></div>
-                    <div class="cat-paw right"></div>
+<!-- ==================== الشاشة 1: المقدمة ==================== -->
+<div class="screen active" id="screen-intro">
+    <div class="card fade-in-up">
+        <div class="cat-container">
+            <div class="cat happy" id="intro-cat">
+                <div class="cat-head">
+                    <div class="cat-ear left"></div>
+                    <div class="cat-ear right"></div>
+                    <div class="cat-eye left"></div>
+                    <div class="cat-eye right"></div>
+                    <div class="cat-nose"></div>
+                    <div class="cat-mouth"></div>
+                    <div class="cat-cheek left"></div>
+                    <div class="cat-cheek right"></div>
+                    <div class="cat-bow"><div class="cat-bow-center"></div></div>
                 </div>
-            </div>
-            <h2 class="english-text" style="font-size: 1.3em; margin-bottom: 10px;">
-                I made something for you!!<br>
-                You want to see it?!
-            </h2>
-            <button class="btn" onclick="goTo('screen-passcode')">
-                YES!! 
-            </button>
-        </div>
-    </div>
-
-    <!-- ==================== الشاشة 2: الرقم السري ==================== -->
-    <div class="screen" id="screen-passcode">
-        <div class="card">
-            <h3 class="english-text" style="color: var(--gold); font-size: 0.9em; letter-spacing: 2px;">ENTER A PASSCODE</h3>
-            <div class="passcode-display" id="passcode-display">
-                <div class="passcode-dot" id="dot-0"></div>
-                <div class="passcode-dot" id="dot-1"></div>
-                <div class="passcode-dot" id="dot-2"></div>
-            </div>
-            <div class="keypad">
-                <div class="key" onclick="enterDigit(1)">1</div>
-                <div class="key" onclick="enterDigit(2)">2</div>
-                <div class="key" onclick="enterDigit(3)">3</div>
-                <div class="key" onclick="enterDigit(4)">4</div>
-                <div class="key" onclick="enterDigit(5)">5</div>
-                <div class="key" onclick="enterDigit(6)">6</div>
-                <div class="key" onclick="enterDigit(7)">7</div>
-                <div class="key" onclick="enterDigit(8)">8</div>
-                <div class="key" onclick="enterDigit(9)">9</div>
-                <div class="key" style="visibility: hidden;"></div>
-                <div class="key" onclick="enterDigit(0)">0</div>
-                <div class="key" onclick="clearPasscode()" style="font-size: 0.8em;">⌫</div>
+                <div class="cat-body"></div>
+                <div class="cat-paw left"></div>
+                <div class="cat-paw right"></div>
             </div>
         </div>
+        <h2 class="english-text" style="font-size: 1.3em; margin-bottom: 10px;">
+            I made something for you!!<br>
+            You want to see it?!
+        </h2>
+        <button class="btn" onclick="goTo('screen-passcode')">
+            YES!! 
+        </button>
     </div>
+</div>
 
-    <!-- ==================== الشاشة 3: خطأ ==================== -->
-    <div class="screen" id="screen-wrong">
-        <div class="card">
-            <h2 class="english-text" style="color: var(--error); font-size: 1.4em;">
-                WRONG PASSCODE!!
-            </h2>
-            <div class="cat-container">
-                <div class="cat sad" id="wrong-cat">
-                    <div class="cat-head">
-                        <div class="cat-ear left"></div>
-                        <div class="cat-ear right"></div>
-                        <div class="cat-eye left"></div>
-                        <div class="cat-eye right"></div>
-                        <div class="cat-nose"></div>
-                        <div class="cat-mouth"></div>
-                        <div class="cat-cheek left"></div>
-                        <div class="cat-cheek right"></div>
-                        <div class="cat-bow"><div class="cat-bow-center"></div></div>
-                        <div class="tear left"></div>
-                        <div class="tear right"></div>
-                    </div>
-                    <div class="cat-body"></div>
-                    <div class="cat-paw left"></div>
-                    <div class="cat-paw right"></div>
-                </div>
-            </div>
-            <button class="btn btn-secondary" onclick="goTo('screen-passcode'); clearPasscode();">
-                TRY AGAIN
-            </button>
+<!-- ==================== الشاشة 2: الرقم السري ==================== -->
+<div class="screen" id="screen-passcode">
+    <div class="card">
+        <h3 class="english-text" style="color: var(--gold); font-size: 0.9em; letter-spacing: 2px;">ENTER A PASSCODE</h3>
+        <div class="passcode-display" id="passcode-display">
+            <div class="passcode-dot" id="dot-0"></div>
+            <div class="passcode-dot" id="dot-1"></div>
+            <div class="passcode-dot" id="dot-2"></div>
+        </div>
+        <div class="keypad">
+            <div class="key" onclick="enterDigit(1)">1</div>
+            <div class="key" onclick="enterDigit(2)">2</div>
+            <div class="key" onclick="enterDigit(3)">3</div>
+            <div class="key" onclick="enterDigit(4)">4</div>
+            <div class="key" onclick="enterDigit(5)">5</div>
+            <div class="key" onclick="enterDigit(6)">6</div>
+            <div class="key" onclick="enterDigit(7)">7</div>
+            <div class="key" onclick="enterDigit(8)">8</div>
+            <div class="key" onclick="enterDigit(9)">9</div>
+            <div class="key" style="visibility: hidden;"></div>
+            <div class="key" onclick="enterDigit(0)">0</div>
+            <div class="key" onclick="clearPasscode()" style="font-size: 0.8em;">⌫</div>
         </div>
     </div>
+</div>
 
-    <!-- ==================== الشاشة 4: اللقب ==================== -->
-    <div class="screen" id="screen-nickname">
-        <div class="card fade-in-up">
-            <h3 class="english-text" style="color: var(--gold); font-size: 1em; letter-spacing: 3px; margin-bottom: 5px;">
-                FOR YOU <3 <span class="heart-beat">❤️</span>
-            </h3>
-            <h1 style="font-family: 'Poppins', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 15px 0;">
-                Hazoona
-            </h1>
-            <div style="width: 60px; height: 3px; background: var(--gold); margin: 0 auto 20px; border-radius: 2px;"></div>
-            <button class="btn" onclick="goTo('screen-message')">
-                NEXT !!
-            </button>
-        </div>
-    </div>
-
-    <!-- ==================== الشاشة 5: الرسالة ==================== -->
-    <div class="screen" id="screen-message">
-        <div class="card" style="max-width: 450px;">
-            <h3 class="english-text" style="color: var(--gold); margin-bottom: 15px;">
-                Happy Birthday <span class="heart-beat">❤️</span>
-            </h3>
-            <div class="message-box arabic-text">
-                <p>
-                    هاابيي بيرثدايي ي بطتيي وعقبال كل أعوامكك تقضيهم بخير وهنا وسعادة وحب وطاعة وراحة بال
-                </p>
-                <p style="margin-top: 10px;">
-                    وإن شاء الله يكون عام تحقيق أحلامك وكل إشي ببالك ي <span class="highlight">أجدعع مهندسس</span> وأحلى يزنن ،،
-                </p>
-                <p style="margin-top: 10px;">
-                    احمم 🌝 مش محتاج الموضوع أحكيهه بس عامكك هاد هيكون أحلى من كل لقبل لأنك تعرفت عع <span class="highlight">حداا زيي</span> 😂❤️
-                </p>
-                <p style="margin-top: 15px; font-size: 1.1em;">
-                    يلل يبروو إنجويي بيومكك يي أحلى هزونن بحياتيي 😂❤️❤️❤️ ❤️✨
-                </p>
-            </div>
-            <button class="btn" onclick="goTo('screen-photos-0')" style="margin-top: 15px;">
-                تشوف الحلويات !🌝😂
-            </button>
-        </div>
-    </div>
-
-    <!-- ==================== الشاشة 6: الصور 1 (صورتين جنب) ==================== -->
-    <div class="screen" id="screen-photos-0">
-        <div class="card" style="max-width: 400px;">
-            <div class="photo-caption">يزن الجميل ❤️</div>
-            <div class="photos-grid layout-side">
-                <div class="polaroid stagger-1">
-                    <!-- https://i.imgur.com/A77Bn3g.jpeg -->
-                    <img src="https://i.postimg.cc/y8bxxYNH/IMG-20260909-235517.jpg" alt="Yazan 1" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
+<!-- ==================== الشاشة 3: خطأ ==================== -->
+<div class="screen" id="screen-wrong">
+    <div class="card">
+        <h2 class="english-text" style="color: var(--error); font-size: 1.4em;">
+            WRONG PASSCODE!!
+        </h2>
+        <div class="cat-container">
+            <div class="cat sad" id="wrong-cat">
+                <div class="cat-head">
+                    <div class="cat-ear left"></div>
+                    <div class="cat-ear right"></div>
+                    <div class="cat-eye left"></div>
+                    <div class="cat-eye right"></div>
+                    <div class="cat-nose"></div>
+                    <div class="cat-mouth"></div>
+                    <div class="cat-cheek left"></div>
+                    <div class="cat-cheek right"></div>
+                    <div class="cat-bow"><div class="cat-bow-center"></div></div>
+                    <div class="tear left"></div>
+                    <div class="tear right"></div>
                 </div>
-                <div class="polaroid stagger-2">
-                    <!-- https://i.imgur.com/9V8O0vt.jpeg -->
-                    <img src="https://i.postimg.cc/ZnGjJhyd/IMG-20260909-221723.jpg" alt="Yazan 2" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
-                </div>
-            </div>
-            <button class="btn" onclick="goTo('screen-photos-1')">
-                تكمل !!
-            </button>
-            <div class="dots-nav">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+                <div class="cat-body"></div>
+                <div class="cat-paw left"></div>
+                <div class="cat-paw right"></div>
             </div>
         </div>
+        <button class="btn btn-secondary" onclick="retryPasscode()">
+            TRY AGAIN
+        </button>
     </div>
+</div>
 
-    <!-- ==================== الشاشة 7: الصور 2 (صورتين فوق بعض) ==================== -->
-    <div class="screen" id="screen-photos-1">
-        <div class="card" style="max-width: 400px;">
-            <div class="photo-caption">البروو اللطيف ❤️</div>
-            <div class="photos-grid layout-stack">
-                <div class="polaroid stagger-1">
-                    <!-- https://i.imgur.com/Y54zp3W.jpeg -->
-                    <img src="https://i.postimg.cc/0yf30bw4/IMG-20260909-221614.jpg" alt="Yazan 3" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
-                </div>
-                <div class="polaroid stagger-2">
-                    <!-- https://i.imgur.com/xG26RvS.jpeg -->
-                    <img src="https://i.postimg.cc/ZntVSSNL/kimi-17882444571717581260054426542332.jpg" alt="Yazan 4" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
-                </div>
+<!-- ==================== الشاشة 4: اللقب ==================== -->
+<div class="screen" id="screen-nickname">
+    <div class="card fade-in-up">
+        <h3 class="english-text" style="color: var(--gold); font-size: 1em; letter-spacing: 3px; margin-bottom: 5px;">
+            FOR YOU <3 <span class="heart-beat">❤️</span>
+        </h3>
+        <h1 style="font-family: 'Poppins', sans-serif; font-size: 2.5em; color: var(--text-main); margin: 15px 0;">
+            Hazoona
+        </h1>
+        <div style="width: 60px; height: 3px; background: var(--gold); margin: 0 auto 20px; border-radius: 2px;"></div>
+        <button class="btn" onclick="goTo('screen-message')">
+            NEXT !!
+        </button>
+    </div>
+</div>
+
+<!-- ==================== الشاشة 5: الرسالة ==================== -->
+<div class="screen" id="screen-message">
+    <div class="card" style="max-width: 450px;">
+        <h3 class="english-text" style="color: var(--gold); margin-bottom: 15px;">
+            Happy Birthday <span class="heart-beat">❤️</span>
+        </h3>
+        <div class="message-box arabic-text">
+            <p>
+                هاابيي بيرثدايي ي بطتيي وعقبال كل أعوامكك تقضيهم بخير وهنا وسعادة وحب وطاعة وراحة بال
+            </p>
+            <p style="margin-top: 10px;">
+                وإن شاء الله يكون عام تحقيق أحلامك وكل إشي ببالك ي <span class="highlight">أجدعع مهندسس</span> وأحلى يزنن ،،
+            </p>
+            <p style="margin-top: 10px;">
+                احمم 🌝 مش محتاج الموضوع أحكيهه بس عامكك هاد هيكون أحلى من كل لقبل لأنك تعرفت عع <span class="highlight">حداا زيي</span> 😂❤️
+            </p>
+            <p style="margin-top: 15px; font-size: 1.1em;">
+                يلل يبروو إنجويي بيومكك يي أحلى هزونن بحياتيي 😂❤️❤️❤️ ❤️✨
+            </p>
+        </div>
+        <button class="btn" onclick="goTo('screen-photos-0')" style="margin-top: 15px;">
+            تشوف الحلويات !🌝😂
+        </button>
+    </div>
+</div>
+
+<!-- ==================== الشاشة 6: الصور 1 ==================== -->
+<div class="screen" id="screen-photos-0">
+    <div class="card" style="max-width: 400px;">
+        <div class="photo-caption">يزن الجميل ❤️</div>
+        <div class="photos-grid layout-side">
+            <div class="polaroid stagger-1">
+                <img src="https://i.postimg.cc/y8bxxYNH/IMG-20260909-235517.jpg" alt="Yazan 1" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
             </div>
-            <button class="btn" onclick="goTo('screen-photos-2')">
-                لسااعع فيي 🌝
-            </button>
-            <div class="dots-nav">
-                <div class="dot"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+            <div class="polaroid stagger-2">
+                <img src="https://i.postimg.cc/ZnGjJhyd/IMG-20260909-221723.jpg" alt="Yazan 2" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
             </div>
         </div>
-    </div>
-
-    <!-- ==================== الشاشة 8: الصور 3 (صورتين بزاوية) ==================== -->
-    <div class="screen" id="screen-photos-2">
-        <div class="card" style="max-width: 400px;">
-            <div class="photo-caption">أحن يزن ❤️</div>
-            <div class="photos-grid layout-diagonal">
-                <div class="polaroid stagger-1">
-                    <!-- https://i.imgur.com/KvU4tiI.jpeg -->
-                    <img src="https://i.postimg.cc/DyCLQhzc/kimi-17882444264682648020148555512038.jpg" alt="Yazan 5" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
-                </div>
-                <div class="polaroid stagger-2">
-                    <!-- https://i.imgur.com/ZaLHhTE.jpeg -->
-                    <img src="https://i.postimg.cc/8k46DGM3/kimi-17882444156091826794531970075643.jpg" alt="Yazan 6" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
-                </div>
-            </div>
-            <button class="btn" onclick="goTo('screen-photos-3')">
-                التالي ❤️
-            </button>
-            <div class="dots-nav">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-            </div>
+        <button class="btn" onclick="goTo('screen-photos-1')">
+            تكمل !!
+        </button>
+        <div class="dots-nav">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
+</div>
 
-    <!-- ==================== الشاشة 9: الصور 4 (صورة واحدة) ==================== -->
-    <div class="screen" id="screen-photos-3">
-        <div class="card" style="max-width: 400px;">
-            <div class="photo-caption">أحلى مهندس ❤️</div>
-            <div class="photos-grid layout-center">
-                <div class="polaroid stagger-1">
-                    <!-- https://i.imgur.com/UbKvbsU.jpeg -->
-                    <img src="https://i.postimg.cc/nLKLkK1y/IMG-20260831-WA0023.jpg" alt="Yazan 7" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'">
-                </div>
+<!-- ==================== الشاشة 7: الصور 2 ==================== -->
+<div class="screen" id="screen-photos-1">
+    <div class="card" style="max-width: 400px;">
+        <div class="photo-caption">البروو اللطيف ❤️</div>
+        <div class="photos-grid layout-stack">
+            <div class="polaroid stagger-1">
+                <img src="https://i.postimg.cc/0yf30bw4/IMG-20260909-221614.jpg" alt="Yazan 3" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
             </div>
-            <button class="btn" onclick="goTo('screen-final')">
-             تشوف ؟
-            </button>
-            <div class="dots-nav">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot active"></div>
+            <div class="polaroid stagger-2">
+                <img src="https://i.postimg.cc/ZntVSSNL/kimi-17882444571717581260054426542332.jpg" alt="Yazan 4" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
             </div>
         </div>
-    </div>
-
-    <!-- ==================== الشاشة 10: الختام ==================== -->
-    <div class="screen" id="screen-final">
-        <div class="card fade-in-up" style="text-align: center;">
-            <div class="cat-container" style="margin-bottom: 10px;">
-                <div class="cat happy">
-                    <div class="cat-head">
-                        <div class="cat-ear left"></div>
-                        <div class="cat-ear right"></div>
-                        <div class="cat-eye left"></div>
-                        <div class="cat-eye right"></div>
-                        <div class="cat-nose"></div>
-                        <div class="cat-mouth"></div>
-                        <div class="cat-cheek left"></div>
-                        <div class="cat-cheek right"></div>
-                        <div class="cat-bow"><div class="cat-bow-center"></div></div>
-                    </div>
-                    <div class="cat-body"></div>
-                    <div class="cat-paw left"></div>
-                    <div class="cat-paw right"></div>
-                </div>
-            </div>
-            <div class="final-text">
-                صنع بحب منن رهوفة ليزونن <span class="heart-beat">❤️✨</span>
-            </div>
-            <div style="width: 50px; height: 2px; background: var(--gold); margin: 15px auto; border-radius: 1px;"></div>
-            <h2 class="english-text" style="color: var(--text-main); font-size: 1.3em;">
-                Happy birthday brooo <span class="heart-beat">❤️✨</span>
-            </h2>
-            <div style="margin-top: 20px; font-size: 2em; animation: fadeInUp 1s ease 0.5s both;">
-                🥺🐣🦆✨
-            </div>
+        <button class="btn" onclick="goTo('screen-photos-2')">
+            لسااعع فيي 🌝
+        </button>
+        <div class="dots-nav">
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
     </div>
+</div>
 
-    <script>
+<!-- ==================== الشاشة 8: الصور 3 ==================== -->
+<div class="screen" id="screen-photos-2">
+    <div class="card" style="max-width: 400px;">
+        <div class="photo-caption">أحن يزن ❤️</div>
+        <div class="photos-grid layout-diagonal">
+            <div class="polaroid stagger-1">
+                <img src="https://i.postimg.cc/DyCLQhzc/kimi-17882444264682648020148555512038.jpg" alt="Yazan 5" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
+            </div>
+            <div class="polaroid stagger-2">
+                <img src="https://i.postimg.cc/8k46DGM3/kimi-17882444156091826794531970075643.jpg" alt="Yazan 6" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
+            </div>
+        </div>
+        <button class="btn" onclick="goTo('screen-photos-3')">
+            التالي ❤️
+        </button>
+        <div class="dots-nav">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== الشاشة 9: الصور 4 ==================== -->
+<div class="screen" id="screen-photos-3">
+    <div class="card" style="max-width: 400px;">
+        <div class="photo-caption">أحلى مهندس ❤️</div>
+        <div class="photos-grid layout-center">
+            <div class="polaroid stagger-1">
+                <img src="https://i.postimg.cc/nLKLkK1y/IMG-20260831-WA0023.jpg" alt="Yazan 7" onerror="this.style.background='linear-gradient(45deg, #FFE4E1, #FADADD)'; this.alt='';">
+            </div>
+        </div>
+        <button class="btn" onclick="goTo('screen-final')">
+         تشوف ؟
+        </button>
+        <div class="dots-nav">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== الشاشة 10: الختام ==================== -->
+<div class="screen" id="screen-final">
+    <div class="card fade-in-up" style="text-align: center;">
+        <div class="cat-container" style="margin-bottom: 10px;">
+            <div class="cat happy">
+                <div class="cat-head">
+                    <div class="cat-ear left"></div>
+                    <div class="cat-ear right"></div>
+                    <div class="cat-eye left"></div>
+                    <div class="cat-eye right"></div>
+                    <div class="cat-nose"></div>
+                    <div class="cat-mouth"></div>
+                    <div class="cat-cheek left"></div>
+                    <div class="cat-cheek right"></div>
+                    <div class="cat-bow"><div class="cat-bow-center"></div></div>
+                </div>
+                <div class="cat-body"></div>
+                <div class="cat-paw left"></div>
+                <div class="cat-paw right"></div>
+            </div>
+        </div>
+        <div class="final-text">
+            صنع بحب منن رهوفة ليزونن <span class="heart-beat">❤️✨</span>
+        </div>
+        <div style="width: 50px; height: 2px; background: var(--gold); margin: 15px auto; border-radius: 1px;"></div>
+        <h2 class="english-text" style="color: var(--text-main); font-size: 1.3em;">
+            Happy birthday brooo <span class="heart-beat">❤️✨</span>
+        </h2>
+        <div style="margin-top: 20px; font-size: 2em; animation: fadeInUp 1s ease 0.5s both;">
+            🥺🐣🦆✨
+        </div>
+    </div>
+                        </div>
+
+        <script>
         // ===== إعدادات الفراشات =====
         function createButterflies() {
             const container = document.getElementById('butterflies');
@@ -977,15 +989,15 @@
             document.querySelectorAll('.screen').forEach(s => {
                 s.classList.remove('active');
             });
-            document.getElementById(screenId).classList.add('active');
-            
-            // إعادة تشغيل animation للعناصر الجديدة
             const newScreen = document.getElementById(screenId);
-            newScreen.querySelectorAll('.fade-in-up, .stagger-1, .stagger-2, .stagger-3').forEach(el => {
-                el.style.animation = 'none';
-                el.offsetHeight; // trigger reflow
-                el.style.animation = null;
-            });
+            if (newScreen) {
+                newScreen.classList.add('active');
+                newScreen.querySelectorAll('.fade-in-up, .stagger-1, .stagger-2, .stagger-3').forEach(el => {
+                    el.style.animation = 'none';
+                    void el.offsetHeight;
+                    el.style.animation = '';
+                });
+            }
         }
 
         // ===== الرقم السري =====
@@ -1007,6 +1019,11 @@
             updateDisplay();
         }
 
+        function retryPasscode() {
+            clearPasscode();
+            goTo('screen-passcode');
+        }
+
         function updateDisplay() {
             for (let i = 0; i < 3; i++) {
                 const dot = document.getElementById('dot-' + i);
@@ -1022,8 +1039,8 @@
 
         function checkPasscode() {
             if (passcode === correctPasscode) {
-                // القطة تفرح
-                document.getElementById('intro-cat').classList.add('happy');
+                const introCat = document.getElementById('intro-cat');
+                if (introCat) introCat.classList.add('happy');
                 setTimeout(() => goTo('screen-nickname'), 500);
             } else {
                 goTo('screen-wrong');
@@ -1036,6 +1053,12 @@
         document.querySelectorAll('img').forEach(img => {
             img.addEventListener('contextmenu', e => e.preventDefault());
         });
+
+        // ===== تهيئة أولية =====
+        updateDisplay();
     </script>
 </body>
 </html>
+
+
+    
